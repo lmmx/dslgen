@@ -22,7 +22,7 @@ def test_grammar_generation(polars_parser):
     """
     # If parser instantiation failed, the fixture would raise an exception.
     # We can also check the grammar is non-empty:
-    assert polars_parser.options.grammar.rules, "No rules generated in the grammar"
+    assert polars_parser.rules, "No rules generated in the grammar"
 
 
 @pytest.mark.parametrize(
@@ -31,11 +31,11 @@ def test_grammar_generation(polars_parser):
         # Simple DataFrame usage with no method chain
         'pl.DataFrame({"x": [1,2,3]})',
         # Chaining a known DataFrame method
-        'pl.DataFrame({"x": [1,2,3]}).filter(col("x") > 1)',
+        'pl.DataFrame({"x": [1,2,3]}).filter(pl.col("x") > 1)',
         # Chaining multiple DataFrame methods (assuming they're recognized)
-        'pl.DataFrame({"x": [1,2,3]}).filter(x > 1).select(["x"])',
+        'pl.DataFrame({"x": [1,2,3]}).filter(x > 1).select("x")',
         # Transition to LazyFrame (if your grammar includes that):
-        'pl.DataFrame({"x": [1,2,3]}).lazy().filter(x > 1).select(["x"])',
+        'pl.DataFrame({"x": [1,2,3]}).lazy().filter(x > 1).select("x")',
     ],
 )
 def test_valid_snippets(polars_parser, snippet):

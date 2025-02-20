@@ -1,0 +1,46 @@
+[build-system]
+build-backend = "pdm.backend"
+requires = [
+    "pdm-backend",
+]
+
+[project]
+authors = [
+    {email = "louismmx@gmail.com", name = "Louis Maddox"},
+]
+name = "demo-polars-lark"
+version = "0.1.0"
+description = "A demonstration of using Griffe to generate a Lark parser for Polars code."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+
+# Core dependencies (runtime)
+dependencies = [
+  "lark-parser",
+  "griffe",
+]
+
+[project.optional-dependencies]
+polars = [
+    "polars>=1.21.0",
+]
+polars-lts-cpu = [
+    "polars-lts-cpu>=1.21.0",
+]
+dev = [
+    "pdm-bump>=0.9.10",
+    "pdm>=2.22.3",
+    "pre-commit>=4.1.0",
+    "pytest>=8.3.4",
+]
+
+[project.urls]
+homepage = "https://github.com/lmmx/demo-polars-lark"
+repository = "https://github.com/lmmx/demo-polars-lark"
+
+[tool.ruff]
+
+[tool.ruff.lint]
+ignore = ["C408", "C901", "E501", "E722", "E741"]
+select = ["C", "D", "E", "F", "I", "UP", "W"]

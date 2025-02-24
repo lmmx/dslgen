@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-"""
-demo_polars_lark.py
+"""demo_polars_lark.py
 
 Proof-of-concept script:
 1. Uses Griffe to load Polars' Python API (via force_inspection).
@@ -11,15 +10,14 @@ Proof-of-concept script:
 import sys
 
 # --- 1. Griffe for introspection (public API) ---
-from griffe import load, ExprName, ExprAttribute
+from griffe import ExprAttribute, ExprName, load
 
 # --- 2. Lark for grammar & parsing ---
 from lark import Lark
 
 
 def find_object_by_name(module, target_name):
-    """
-    Recursively search `module.members` for an object named `target_name`,
+    """Recursively search `module.members` for an object named `target_name`,
     returning the first match. If not found, return None.
     """
     if module.name.endswith(target_name):
@@ -38,8 +36,7 @@ def find_object_by_name(module, target_name):
 
 
 def _flatten_expr_attribute(expr_attr: ExprAttribute) -> list[str]:
-    """
-    Recursively extract a list of name segments from an ExprAttribute.
+    """Recursively extract a list of name segments from an ExprAttribute.
     E.g., ExprAttribute(values=[ExprName('pd'), ExprName('DataFrame')])
     -> ['pd', 'DataFrame']
     """
@@ -57,8 +54,7 @@ def _flatten_expr_attribute(expr_attr: ExprAttribute) -> list[str]:
 
 
 def build_polars_api_map():
-    """
-    Use Griffe to load Polars' public API with forced inspection,
+    """Use Griffe to load Polars' public API with forced inspection,
     gather references to classes like DataFrame, LazyFrame, Expr,
     and map out the relevant methods + returns.
 
@@ -112,15 +108,13 @@ def build_polars_api_map():
 
 
 def generate_lark_grammar(api_map):
-    """
-    Generate a simplistic Lark grammar for Polars usage.
+    """Generate a simplistic Lark grammar for Polars usage.
     We'll define a 'start' rule to parse something like:
 
         pl.DataFrame({"x": [1,2,3]}).lazy().filter(...).select(...)
 
     This is a big oversimplification, but illustrates the approach.
     """
-
     grammar_prelude = r"""
     ?start: polars_expression
 
@@ -172,13 +166,15 @@ def generate_lark_grammar(api_map):
         else "LF_METHOD_CALL: /NO_LF_METHODS/"
     )
 
-    grammar = "\n".join([
-        grammar_prelude,
-        "\n".join(method_rules),
-        grammar_mid,
-        df_call_rule,
-        lf_call_rule,
-    ])
+    grammar = "\n".join(
+        [
+            grammar_prelude,
+            "\n".join(method_rules),
+            grammar_mid,
+            df_call_rule,
+            lf_call_rule,
+        ]
+    )
 
     return grammar
 

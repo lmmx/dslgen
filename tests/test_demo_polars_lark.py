@@ -1,13 +1,13 @@
 # tests/test_demo_polars_lark.py
 import pytest
-from dslgen import build_polars_api_map, generate_lark_grammar
 from lark import Lark, UnexpectedInput
+
+from dslgen import build_polars_api_map, generate_lark_grammar
 
 
 @pytest.fixture(scope="module")
 def polars_parser():
-    """
-    Fixture that returns a Lark parser generated from the Polars API map.
+    """Fixture that returns a Lark parser generated from the Polars API map.
     We do this once per test session for efficiency.
     """
     api_map = build_polars_api_map()
@@ -17,9 +17,7 @@ def polars_parser():
 
 
 def test_grammar_generation(polars_parser):
-    """
-    Basic check that the parser can be constructed and grammar is not empty.
-    """
+    """Basic check that the parser can be constructed and grammar is not empty."""
     # If parser instantiation failed, the fixture would raise an exception.
     # We can also check the grammar is non-empty:
     assert polars_parser.rules, "No rules generated in the grammar"
@@ -39,9 +37,7 @@ def test_grammar_generation(polars_parser):
     ],
 )
 def test_valid_snippets(polars_parser, snippet):
-    """
-    Ensure valid Polars DSL-like snippets parse successfully under our grammar.
-    """
+    """Ensure valid Polars DSL-like snippets parse successfully under our grammar."""
     # We expect these to parse without error.
     parse_tree = polars_parser.parse(snippet)
     assert parse_tree, f"Failed to parse a valid snippet: {snippet}"
@@ -60,8 +56,7 @@ def test_valid_snippets(polars_parser, snippet):
     ],
 )
 def test_invalid_snippets(polars_parser, snippet):
-    """
-    Ensure invalid snippets (unknown methods, syntax errors) do NOT parse
+    """Ensure invalid snippets (unknown methods, syntax errors) do NOT parse
     and raise an appropriate exception.
     """
     with pytest.raises(UnexpectedInput):
@@ -69,9 +64,7 @@ def test_invalid_snippets(polars_parser, snippet):
 
 
 def test_api_map_sanity():
-    """
-    Simple check that build_polars_api_map finds some known Polars classes/methods.
-    """
+    """Simple check that build_polars_api_map finds some known Polars classes/methods."""
     api_map = build_polars_api_map()
     assert "DataFrame" in api_map, "DataFrame not found in Polars API map"
     assert "LazyFrame" in api_map, "LazyFrame not found in Polars API map"
@@ -84,8 +77,7 @@ def test_api_map_sanity():
 
 
 def test_generate_lark_grammar_structure():
-    """
-    Check that our generated grammar contains essential tokens or rules
+    """Check that our generated grammar contains essential tokens or rules
     for recognized methods.
     """
     api_map = build_polars_api_map()

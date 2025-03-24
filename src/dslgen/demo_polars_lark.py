@@ -173,7 +173,7 @@ def generate_lark_grammar(api_map):
             grammar_mid,
             df_call_rule,
             lf_call_rule,
-        ]
+        ],
     )
 
     return grammar

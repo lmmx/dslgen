@@ -33,7 +33,7 @@ def build_polars_api_map():
     ...
     # Identify classes & methods dynamically
 
-    api_map = { ... }  # e.g. "DataFrame" -> {"filter": ..., "select": ...}
+    api_map = {...}  # e.g. "DataFrame" -> {"filter": ..., "select": ...}
     return api_map
 ```
 

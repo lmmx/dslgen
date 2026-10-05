@@ -6,13 +6,13 @@ requires = [
 
 [project]
 authors = [
-  {email = "louismmx@gmail.com", name = "Louis Maddox"}
+  { email = "louismmx@gmail.com", name = "Louis Maddox" }
 ]
 name = "demo-polars-lark"
 version = "0.1.0"
 description = "A demonstration of using Griffe to generate a Lark parser for Polars code."
 readme = "README.md"
-license = {text = "MIT"}
+license = { text = "MIT" }
 requires-python = ">=3.10"
 # Core dependencies (runtime)
 dependencies = [
